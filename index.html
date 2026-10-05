@@ -36,18 +36,18 @@
       </defs>
       <circle class="r r3" cx="200" cy="200" r="190"/><circle class="r r2" cx="200" cy="200" r="158"/>
       <circle class="orbit" cx="200" cy="200" r="174"/>
-      <g class="dot"><circle cx="200" cy="26" r="6" fill="url(#gd)"/></g>
-      <g class="dot d2"><circle cx="200" cy="42" r="4" fill="#3CC38F"/></g>
       <ellipse cx="200" cy="330" rx="80" ry="10" fill="#0E7C99" opacity=".15"/>
       <path class="sh" pathLength="1" d="M200 100 128 128v70c0 48 30 78 72 96 42-18 72-48 72-96v-70L200 100Z"/>
       <g clip-path="url(#cp)"><path class="gloss" d="M120 100h90l-60 220h-60Z" fill="url(#gl)"/></g>
       <path class="inl" d="M200 118 144 140v58c0 38 24 62 56 78 32-16 56-40 56-78v-58L200 118Z" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.5"/>
       <path class="ck" pathLength="1" d="m170 203 22 22 40-46"/>
-      <path class="sp s1" d="M330 120l4 12 12 4-12 4-4 12-4-12-12-4 12-4Z" fill="url(#gd)"/>
-      <path class="sp s2" d="M70 270l3 9 9 3-9 3-3 9-3-9-9-3 9-3Z" fill="url(#gd)"/>
     </svg>
-    <div class="chip c1"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></i>Websites<u>✓</u></div>
+    <div class="stars" id="stars"></div>
+    <div class="chip c1"><i class=""><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></i>Websites<u>✓</u></div>
     <div class="chip c2"><i class="gold"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="4"/><path d="M10 9.5v5l4.5-2.5-4.5-2.5Z"/></svg></i>Videos<u>✓</u></div>
+    <div class="chip c3"><i class="green"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.8"/><path d="m21 16-5-5-8 9"/></svg></i>Photos<u>✓</u></div>
+    <div class="chip c4"><i class="blue"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 8 8 6 8-6"/></svg></i>Newsletters<u>✓</u></div>
+    <div class="chip c5"><i class="gold"><svg viewBox="0 0 24 24"><path d="M7 3h8l4 4v14H7z"/><path d="M10 12h6M10 16h6M10 8h2"/></svg></i>Articles<u>✓</u></div>
   </div>
 </div></div>
 
@@ -55,10 +55,10 @@
   <div class="split">
     <div class="stick rv"><h2>Quiet, thorough, always there.</h2><p>You choose the words. NetShield handles the rest in the background.</p></div>
     <div class="feat">
-      <div class="f t1"><div class="tile"><svg viewBox="0 0 48 48"><path pathLength="1" d="M4 24s7-12 20-12 20 12 20 12-7 12-20 12S4 24 4 24Z"/><circle pathLength="1" cx="24" cy="24" r="5"/></svg></div><div><h3>Watches every tab</h3><p>If a blocked word appears in a page, a title or the video you're watching, the tab closes right away.</p></div></div>
-      <div class="f t2"><div class="tile"><svg viewBox="0 0 48 48"><rect pathLength="1" x="5" y="10" width="38" height="28" rx="6"/><path pathLength="1" d="M20 18v12l10-6-10-6Z"/></svg></div><div><h3>Hides single videos</h3><p>On YouTube and similar sites, only the matching videos disappear. The rest of the page stays usable.</p></div></div>
-      <div class="f t3"><div class="tile"><svg viewBox="0 0 48 48"><path pathLength="1" d="M24 6v16"/><path pathLength="1" d="M14 12a15 15 0 1 0 20 0"/></svg></div><div><h3>Always on</h3><p>Starts with Windows, runs quietly in the background, and moves other browsers over to the filtered Chrome.</p></div></div>
-      <div class="f t4"><div class="tile"><svg viewBox="0 0 48 48"><rect pathLength="1" x="10" y="21" width="28" height="20" rx="5"/><path pathLength="1" d="M16 21v-6a8 8 0 0 1 16 0v6"/></svg></div><div><h3>Built to last</h3><p>Words can only be added, never removed, and uninstalling takes a 3-minute wait. Protection that sticks.</p></div></div>
+      <div tabindex="0" class="f t1"><div class="tile"><svg viewBox="0 0 48 48"><path pathLength="1" d="M4 24s7-12 20-12 20 12 20 12-7 12-20 12S4 24 4 24Z"/><circle pathLength="1" cx="24" cy="24" r="5"/></svg></div><div><h3>Watches every tab</h3><p>If a blocked word appears in a page, a title or the video you're watching, the tab closes right away.</p></div></div>
+      <div tabindex="0" class="f t2"><div class="tile"><svg viewBox="0 0 48 48"><rect pathLength="1" x="5" y="10" width="38" height="28" rx="6"/><path pathLength="1" d="M20 18v12l10-6-10-6Z"/></svg></div><div><h3>Hides single videos</h3><p>On YouTube and similar sites, only the matching videos disappear. The rest of the page stays usable.</p></div></div>
+      <div tabindex="0" class="f t3"><div class="tile"><svg viewBox="0 0 48 48"><path pathLength="1" d="M24 6v16"/><path pathLength="1" d="M14 12a15 15 0 1 0 20 0"/></svg></div><div><h3>Always on</h3><p>Starts with Windows, runs quietly in the background, and moves other browsers over to the filtered Chrome.</p></div></div>
+      <div tabindex="0" class="f t4"><div class="tile"><svg viewBox="0 0 48 48"><rect pathLength="1" x="10" y="21" width="28" height="20" rx="5"/><path pathLength="1" d="M16 21v-6a8 8 0 0 1 16 0v6"/></svg></div><div><h3>Built to last</h3><p>Words can only be added, never removed, and uninstalling takes a 3-minute wait. Protection that sticks.</p></div></div>
     </div>
   </div>
 </div></section>
