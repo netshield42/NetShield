@@ -1,5 +1,5 @@
 :root{--bg:#fff;--pale:#EFFAFB;--ink:#0A2A36;--mut:#587480;--line:#D8E7EA;
---tq:#14B8C4;--bl:#0E7C99;--deep:#0B4F63;--gold:#C9A24A;--gold2:#F3D88A;--gr:#2FA37A;
+--tq:#14B8C4;--bl:#0E7C99;--deep:#157D9D;--gold:#C9A24A;--gold2:#F3D88A;--gr:#2FA37A;
 --ivory:#FFF4DC; --ivory2:#F5E3BA;--serif:"Playfair Display",Georgia,serif;--sans:"Hanken Grotesk",system-ui,sans-serif;--ease:cubic-bezier(.22,.8,.2,1);box-sizing:border-box}
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-behavior:smooth;scroll-padding-top:80px}
