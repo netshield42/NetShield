@@ -68,7 +68,7 @@ h1 em{font-style:italic;background:linear-gradient(100deg,#A9822A,#E3BD6A 35%,#C
 /* stars: JS moves each one to a new random spot every cycle */
 .stars{position:absolute;inset:0;pointer-events:none}
 .st{position:absolute;opacity:0;animation:twk 3.6s ease-in-out infinite}
-.st svg{display:block;width:100%;height:100%;fill:#D4AF55;filter:drop-shadow(0 0 4px rgba(212,175,85,.7))}
+.st svg{display:block;width:100%;height:100%;fill:#D4AF55;filter:drop-shadow(0 0 6px rgba(212,175,85,.85))}
 @keyframes twk{0%{opacity:0;transform:scale(.2) rotate(0)}50%{opacity:1;transform:scale(1) rotate(45deg)}100%{opacity:0;transform:scale(.2) rotate(90deg)}}
 @keyframes bob{50%{transform:translateY(-12px)}}
 
