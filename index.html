@@ -3,182 +3,212 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>NetShield – A filter you can't talk yourself out of</title>
-<meta name="description" content="NetShield is a free Windows app that closes tabs and hides videos containing words you choose, and is built to be hard to switch off.">
+<title>NetShield – The web, minus the bad parts</title>
+<meta name="description" content="NetShield is a free Windows app that quietly filters inappropriate websites and videos in Chrome.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#EDF1F6;--panel:#fff;--ink:#12203A;--mut:#56627A;--line:#D3DBE7;--acc:#2447E8;--accink:#fff;--bad:#D6343F;--badbg:#FBE9EA;
---head:"Bricolage Grotesque",system-ui,sans-serif;--body:"Figtree",system-ui,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1626;--panel:#16213A;--ink:#E8EEFB;--mut:#9AA8C4;--line:#2A3857;--acc:#7C97FF;--accink:#0E1626;--bad:#FF6B75;--badbg:#3A1E28}}
-:root[data-theme="dark"]{--bg:#0E1626;--panel:#16213A;--ink:#E8EEFB;--mut:#9AA8C4;--line:#2A3857;--acc:#7C97FF;--accink:#0E1626;--bad:#FF6B75;--badbg:#3A1E28}
+:root{--bg:#070B14;--panel:rgba(255,255,255,.045);--line:rgba(255,255,255,.12);--ink:#EAF0FF;--mut:#8F9BB8;--mint:#4DFFB4;--blue:#4D7CFF;--pink:#FF4DB8;
+--head:"Sora",system-ui,sans-serif;--body:"Outfit",system-ui,sans-serif;color-scheme:dark;box-sizing:border-box}
 *,*::before,*::after{box-sizing:inherit}
-html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 1.05rem/1.6 var(--body)}
-h1,h2,h3{font-family:var(--head);margin:0;line-height:1.05;letter-spacing:-.02em}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.1rem/1.6 var(--body);overflow-x:hidden;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+h1,h2,h3{font-family:var(--head);margin:0;line-height:1.08;letter-spacing:-.03em}
 p{margin:0;color:var(--mut)}
 a{color:inherit}
-:focus-visible{outline:3px solid var(--acc);outline-offset:3px;border-radius:6px}
-.wrap{max-width:1080px;margin:0 auto;padding:0 1.5rem}
-header{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0}
-.logo{font:800 1.3rem var(--head);text-decoration:none;display:flex;align-items:center;gap:.5rem}
-.logo svg{width:22px;height:24px}
-.btn{display:inline-block;padding:.85rem 1.5rem;border-radius:10px;font-weight:600;text-decoration:none;background:var(--acc);color:var(--accink);border:0;font-size:1rem;font-family:inherit;cursor:pointer;transition:transform .15s}
-.btn:hover{transform:translateY(-2px)}
-.btn.sm{padding:.5rem 1rem;font-size:.92rem}
+:focus-visible{outline:3px solid var(--mint);outline-offset:3px;border-radius:8px}
+.g{background:linear-gradient(90deg,var(--mint),var(--blue),var(--pink),var(--mint));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+@keyframes shine{to{background-position:300% 0}}
+
+/* background */
+.aur{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.aur i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.35;animation:drift 18s ease-in-out infinite alternate}
+.aur i:nth-child(1){width:50vmax;height:50vmax;background:var(--blue);top:-20%;left:-15%}
+.aur i:nth-child(2){width:40vmax;height:40vmax;background:var(--pink);bottom:-15%;right:-10%;opacity:.22;animation-delay:-6s}
+.aur i:nth-child(3){width:30vmax;height:30vmax;background:var(--mint);top:35%;left:45%;opacity:.14;animation-delay:-11s}
+@keyframes drift{to{transform:translate(8vmax,5vmax) scale(1.25)}}
+.grid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;opacity:.35;mask-image:radial-gradient(70% 60% at 50% 30%,#000,transparent)}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;background:radial-gradient(380px circle at var(--gx,50%) var(--gy,30%),rgba(77,255,180,.09),transparent 70%)}
+
+.wrap{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:0 1.5rem}
+nav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0}
+.logo{display:flex;align-items:center;gap:.55rem;font:800 1.25rem var(--head);text-decoration:none}
+.btn{position:relative;display:inline-block;padding:.95rem 1.8rem;border-radius:999px;font-weight:600;text-decoration:none;color:#04110B;background:linear-gradient(90deg,var(--mint),#7AB0FF);box-shadow:0 0 30px rgba(77,255,180,.4);transition:transform .25s,box-shadow .25s;overflow:hidden}
+.btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.7),transparent);transform:skewX(-20deg);animation:sweep 3.5s 1.5s infinite}
+@keyframes sweep{to{left:140%}}
+.btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 0 50px rgba(77,255,180,.7)}
+.btn.sm{padding:.5rem 1.2rem;font-size:.95rem}
 
 /* hero */
-.hero{display:grid;grid-template-columns:1fr 1.05fr;gap:3.5rem;align-items:center;padding:3.5rem 0 5rem}
-h1{font-size:clamp(2.6rem,5.6vw,4.4rem);font-weight:800}
-.lead{font-size:1.2rem;margin:1.4rem 0 2rem;max-width:30rem}
-.note{font-size:.9rem;margin-top:1rem}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:2rem;align-items:center;min-height:calc(100vh - 80px);padding:2rem 0 4rem}
+.tag{display:inline-flex;align-items:center;gap:.6rem;padding:.4rem 1rem;border-radius:999px;background:var(--panel);border:1px solid var(--line);font-size:.92rem;margin-bottom:1.6rem}
+.tag b{width:8px;height:8px;border-radius:50%;background:var(--mint);animation:ping 1.8s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 var(--mint)}100%{box-shadow:0 0 0 10px transparent}}
+h1{font-size:clamp(2.8rem,6.4vw,5.2rem);font-weight:800}
+h1 .w{display:inline-block;opacity:0;transform:translateY(60%) rotate(4deg);filter:blur(8px);animation:wd .9s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i)*.12s + .2s)}
+@keyframes wd{to{opacity:1;transform:none;filter:none}}
+.lead{max-width:30rem;margin:1.6rem 0 2.2rem;font-size:1.2rem;opacity:0;animation:fade 1s 1s forwards}
+.cta{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;opacity:0;animation:fade 1s 1.2s forwards}
+.cta span{font-size:.95rem;color:var(--mut)}
+@keyframes fade{to{opacity:1}}
 
-/* live demo */
-.demo{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:1.2rem;box-shadow:0 18px 50px -24px rgba(18,32,58,.35)}
-.demo form{display:flex;gap:.5rem}
-.demo input{flex:1;min-width:0;padding:.75rem .9rem;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
-.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.9rem 0 .2rem;min-height:2rem;align-items:center}
-.chip{font-size:.88rem;padding:.2rem .65rem;border-radius:999px;background:var(--badbg);color:var(--bad);font-weight:600}
-.try{background:none;border:1px dashed var(--line);color:var(--mut);font:inherit;font-size:.88rem;padding:.2rem .65rem;border-radius:999px;cursor:pointer}
-.try:hover{border-color:var(--acc);color:var(--acc)}
-.hint{font-size:.85rem;color:var(--mut);margin:.3rem 0 .9rem}
-.list{display:grid;gap:.5rem}
-.vid{display:grid;grid-template-columns:64px 1fr;gap:.8rem;align-items:center;padding:.5rem;border-radius:10px;border:1px solid var(--line);max-height:80px;overflow:hidden;transition:max-height .5s,opacity .4s,padding .5s,margin .5s,border-width .5s}
-.vid i{height:44px;border-radius:7px;background:linear-gradient(135deg,var(--line),var(--bg))}
-.vid b{display:block;font-size:.95rem;line-height:1.3}
-.vid small{color:var(--mut)}
-.vid.gone{max-height:0;opacity:0;padding-block:0;margin-block:-.25rem;border-width:0}
-.status{margin-top:.9rem;font-size:.9rem;color:var(--mut);min-height:1.4em}
-.status strong{color:var(--bad)}
+/* shield */
+.orb{position:relative;width:min(380px,80vw);aspect-ratio:1;margin:auto;animation:float 6s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-16px)}}
+.ring{position:absolute;inset:0;border-radius:50%;border:1px solid var(--line)}
+.ring.r2{inset:12%;border-color:rgba(77,255,180,.35);border-style:dashed;animation:spin 30s linear infinite}
+.ring.r3{inset:-8%;border-color:rgba(77,124,255,.3);animation:spin 40s linear infinite reverse}
+.ring::after{content:"";position:absolute;top:-5px;left:50%;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:var(--mint);box-shadow:0 0 18px 4px var(--mint)}
+.r3::after{background:var(--pink);box-shadow:0 0 18px 4px var(--pink)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.scan{position:absolute;inset:12%;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 70%,rgba(77,255,180,.35));animation:spin 4s linear infinite;mask-image:radial-gradient(circle,transparent 30%,#000 31%)}
+.shield{position:absolute;inset:28%;display:grid;place-items:center;border-radius:36%;background:linear-gradient(145deg,rgba(77,124,255,.5),rgba(77,255,180,.25));border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(6px);box-shadow:0 0 80px rgba(77,124,255,.6);animation:glow 3s ease-in-out infinite alternate}
+.shield svg{width:55%;filter:drop-shadow(0 0 14px var(--mint))}
+.shield path.ck{stroke-dasharray:30;stroke-dashoffset:30;animation:draw 3s 1.2s ease-in-out infinite}
+@keyframes draw{0%{stroke-dashoffset:30}35%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:30}}
+@keyframes glow{to{box-shadow:0 0 120px rgba(77,255,180,.55)}}
+.bit{position:absolute;padding:.3rem .8rem;font-size:.85rem;font-weight:500;border-radius:999px;background:rgba(7,11,20,.7);border:1px solid var(--line);backdrop-filter:blur(6px);animation:bob 5s ease-in-out infinite}
+.bit:nth-of-type(1){top:6%;left:-6%}.bit:nth-of-type(2){bottom:12%;right:-8%;animation-delay:-2s}.bit:nth-of-type(3){bottom:-2%;left:8%;animation-delay:-3.5s}
+@keyframes bob{50%{transform:translateY(-12px)}}
+
+/* marquee */
+.marq{position:relative;z-index:2;overflow:hidden;padding:1.2rem 0;border-block:1px solid var(--line);background:rgba(255,255,255,.02)}
+.track{display:flex;width:max-content;animation:mq 28s linear infinite}
+.track span{font:800 clamp(1.4rem,3vw,2rem) var(--head);padding:0 1.8rem;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.45)}
+.track span::after{content:"✦";margin-left:3.6rem;color:var(--mint);-webkit-text-stroke:0}
+@keyframes mq{to{transform:translateX(-50%)}}
 
 /* sections */
-section{padding:4.5rem 0;border-top:1px solid var(--line)}
-h2{font-size:clamp(1.9rem,3.8vw,2.8rem);font-weight:800;max-width:20ch}
-.sub{margin-top:1rem;max-width:36rem}
-.rows{margin-top:2.5rem;display:grid;gap:0}
-.row{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:2rem;padding:1.6rem 0;border-top:1px solid var(--line)}
-.row:last-child{border-bottom:1px solid var(--line)}
-.row h3{font-size:1.35rem;font-weight:600}
-.quote{margin-top:2.5rem;font:600 1.5rem/1.3 var(--head);max-width:30ch}
-.steps{list-style:none;counter-reset:s;padding:0;margin:2.5rem 0 0;display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
-.steps li{counter-increment:s;border-top:3px solid var(--ink);padding-top:1rem}
-.steps li::before{content:"Step " counter(s);display:block;font-weight:600;color:var(--acc);font-size:.9rem;margin-bottom:.3rem}
-.steps h3{font-size:1.15rem;margin-bottom:.4rem}
-.steps p{font-size:.95rem}
-.faq{margin-top:2rem;max-width:42rem}
-details{border-top:1px solid var(--line);padding:1rem 0}
-details:last-child{border-bottom:1px solid var(--line)}
-summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:1rem}
-summary::after{content:"+";color:var(--acc);font-size:1.3rem;line-height:1}
-details[open] summary::after{content:"–"}
-details p{margin-top:.6rem}
-.dl{background:var(--ink);color:var(--bg);border-radius:22px;padding:3.5rem 2rem;margin:1rem 0 4rem;text-align:center;border:0}
-.dl h2{max-width:none;margin:0 auto .8rem}.dl p{color:inherit;opacity:.8;margin-bottom:1.8rem}
-.dl .btn{background:var(--bg);color:var(--ink)}
-footer{display:flex;justify-content:space-between;padding:1.5rem 0 2.5rem;color:var(--mut);font-size:.9rem}
+section{padding:6rem 0}
+h2{font-size:clamp(2rem,4.8vw,3.4rem);font-weight:800;max-width:18ch}
+.sub{margin-top:1rem;max-width:34rem}
+.rv{opacity:0;transform:translateY(46px) scale(.97);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1);transition-delay:var(--d,0s)}
+.rv.in{opacity:1;transform:none}
 
-@media(max-width:860px){.hero{grid-template-columns:1fr;gap:2.5rem;padding-top:2rem}.row{grid-template-columns:1fr;gap:.5rem}.steps{grid-template-columns:1fr 1fr}}
-@media(max-width:520px){.steps{grid-template-columns:1fr}}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+/* bento */
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:1rem;margin-top:3rem}
+.tile{position:relative;overflow:hidden;grid-column:span 3;min-height:250px;padding:1.8rem;border-radius:26px;background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(8px);display:flex;flex-direction:column;justify-content:flex-end;
+transform:perspective(900px) rotateX(var(--rx,0)) rotateY(var(--ry,0));transition:transform .25s,border-color .3s,opacity .9s,translate .9s}
+.tile.rv{transition:opacity .9s cubic-bezier(.2,.8,.2,1) var(--d,0s),transform .25s,border-color .3s}
+.tile::before{content:"";position:absolute;inset:0;background:radial-gradient(300px circle at var(--mx,50%) var(--my,50%),rgba(77,255,180,.16),transparent 70%);opacity:0;transition:opacity .3s}
+.tile:hover{border-color:rgba(77,255,180,.5)}.tile:hover::before{opacity:1}
+.tile>*{position:relative}
+.tile h3{font-size:1.4rem;margin-bottom:.4rem}
+.vis{position:absolute!important;top:1.4rem;right:1.4rem;width:96px;height:96px;display:grid;place-items:center}
+/* radar */
+.radar i{position:absolute;inset:0;border-radius:50%;border:2px solid var(--mint);opacity:0;animation:rad 3s infinite}
+.radar i:nth-child(2){animation-delay:1s}.radar i:nth-child(3){animation-delay:2s}
+.radar b{width:14px;height:14px;border-radius:50%;background:var(--mint);box-shadow:0 0 20px var(--mint)}
+@keyframes rad{0%{transform:scale(.1);opacity:.9}100%{transform:scale(1);opacity:0}}
+/* play slash */
+.play svg{width:80px;overflow:visible}
+.play .sl{stroke-dasharray:90;stroke-dashoffset:90;animation:sl 3.2s ease-in-out infinite}
+@keyframes sl{0%,15%{stroke-dashoffset:90}45%,80%{stroke-dashoffset:0}100%{stroke-dashoffset:-90}}
+.play .tri{animation:tri 3.2s ease-in-out infinite;transform-origin:center}
+@keyframes tri{45%,80%{opacity:.3}}
+/* toggle */
+.tog{width:84px;height:44px;border-radius:99px;background:rgba(255,255,255,.12);animation:tbg 3.4s infinite;position:relative}
+.tog::after{content:"";position:absolute;top:5px;left:5px;width:34px;height:34px;border-radius:50%;background:#fff;animation:tk 3.4s infinite}
+@keyframes tk{0%,25%{transform:none}40%,90%{transform:translateX(40px)}100%{transform:none}}
+@keyframes tbg{0%,25%{background:rgba(255,255,255,.12)}40%,90%{background:var(--mint)}100%{background:rgba(255,255,255,.12)}}
+/* timer */
+.timer{width:92px;height:92px;border-radius:50%;background:conic-gradient(var(--pink) var(--p,0%),rgba(255,255,255,.1) 0);display:grid;place-items:center;mask-image:radial-gradient(circle,transparent 36px,#000 37px)}
+.tnum{position:absolute;font:800 1.1rem var(--head)}
+@property --p{syntax:"<percentage>";inherits:false;initial-value:0%}
+.timer{animation:tm 6s linear infinite}
+@keyframes tm{to{--p:100%}}
+
+/* steps */
+.steps{list-style:none;margin:3rem 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;position:relative;counter-reset:s}
+.steps::before{content:"";position:absolute;top:1.6rem;left:2rem;right:2rem;height:2px;background:linear-gradient(90deg,var(--mint),var(--blue),var(--pink));box-shadow:0 0 14px var(--mint);transform:scaleX(0);transform-origin:left;transition:transform 1.8s ease}
+.steps.in::before{transform:scaleX(1)}
+.steps li{counter-increment:s;padding-top:4.2rem;position:relative}
+.steps li::before{content:counter(s);position:absolute;top:0;left:0;width:3.2rem;height:3.2rem;border-radius:50%;display:grid;place-items:center;font:800 1.2rem var(--head);color:#04110B;background:linear-gradient(135deg,var(--mint),var(--blue));box-shadow:0 0 30px rgba(77,255,180,.6)}
+.steps h3{font-size:1.35rem;margin-bottom:.4rem}
+
+/* download */
+.dl{text-align:center;padding:5rem 1.5rem;border-radius:34px;position:relative;overflow:hidden;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.dl::before{content:"";position:absolute;width:160%;aspect-ratio:1;left:-30%;top:-80%;background:conic-gradient(transparent,rgba(77,255,180,.3),transparent 30%,rgba(255,77,184,.25),transparent 60%);animation:spin 9s linear infinite}
+.dl::after{content:"";position:absolute;inset:2px;border-radius:32px;background:var(--bg);opacity:.86}
+.dl>*{position:relative;z-index:1}.dl h2{margin:0 auto 1rem;max-width:none}.dl p{margin-bottom:2rem}
+.dl small{display:block;margin-top:1.4rem;color:var(--mut);font-size:.9rem}
+footer{display:flex;justify-content:space-between;padding:2.5rem 0;color:var(--mut);font-size:.92rem}
+
+@media(max-width:860px){.hero{grid-template-columns:1fr;text-align:center;padding-top:1rem}.lead{margin-inline:auto}.cta{justify-content:center}.orb{margin-top:2rem}.tile{grid-column:span 6}.steps{grid-template-columns:1fr}.steps::before{display:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+h1 .w,.lead,.cta,.rv{opacity:1;transform:none;filter:none}.steps::before{transform:none}}
 </style>
 </head>
 <body>
+<div class="aur" aria-hidden="true"><i></i><i></i><i></i></div><div class="grid" aria-hidden="true"></div>
+
 <div class="wrap">
-<header>
-  <a class="logo" href="#top"><svg viewBox="0 0 26 28" aria-hidden="true"><path d="M13 1 2 5v8c0 7 4.6 11.6 11 14 6.4-2.4 11-7 11-14V5L13 1Z" fill="var(--acc)"/><path d="m8.5 13.5 3.2 3.2 5.8-6.4" fill="none" stroke="var(--accink)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>NetShield</a>
+<nav>
+  <a class="logo" href="#top"><svg width="22" height="24" viewBox="0 0 26 28" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4DFFB4"/><stop offset="1" stop-color="#4D7CFF"/></linearGradient></defs><path d="M13 1 2 5v8c0 7 4.6 11.6 11 14 6.4-2.4 11-7 11-14V5L13 1Z" fill="url(#lg)"/></svg>NetShield</a>
   <a class="btn sm" href="#download">Download</a>
-</header>
+</nav>
 
 <main id="top">
 <div class="hero">
   <div>
-    <h1>A filter you can't talk yourself out of.</h1>
-    <p class="lead">You pick the words. NetShield closes the tabs and hides the videos that contain them, and it's built so that switching it off on a weak night isn't easy.</p>
-    <a class="btn" href="#download">Download for Windows</a>
-    <p class="note">Free. Works with Google Chrome.</p>
+    <span class="tag"><b></b>Free · Always on · For Windows</span>
+    <h1><span class="w" style="--i:0">The</span> <span class="w" style="--i:1">web,</span> <span class="w g" style="--i:2">minus</span> <span class="w g" style="--i:3">the</span> <span class="w g" style="--i:4">bad</span> <span class="w g" style="--i:5">parts.</span></h1>
+    <p class="lead">NetShield quietly filters inappropriate websites and videos in Chrome, so what's on your screen is safe to watch.</p>
+    <div class="cta"><a class="btn" href="#download">Download free</a><span>Takes about a minute to set up</span></div>
   </div>
-
-  <div class="demo" aria-label="Interactive demo">
-    <form id="f"><input id="w" placeholder="Type a word to block…" autocomplete="off" aria-label="Word to block"><button class="btn" type="submit">Add</button></form>
-    <div class="chips" id="chips"><span style="color:var(--mut);font-size:.88rem">Try:</span><button class="try" type="button">casino</button><button class="try" type="button">poker</button><button class="try" type="button">gossip</button></div>
-    <p class="hint">Notice there's no remove button. Words can only be added.</p>
-    <div class="list" id="list"></div>
-    <p class="status" id="st" aria-live="polite">Pretend this is your YouTube feed.</p>
+  <div class="orb" id="orb" aria-hidden="true">
+    <div class="ring r3"></div><div class="ring"></div><div class="ring r2"></div><div class="scan"></div>
+    <div class="shield"><svg viewBox="0 0 26 28"><path d="M13 3 4 6.4v6.7c0 5.8 3.8 9.6 9 11.6 5.2-2 9-5.8 9-11.6V6.4L13 3Z" fill="none" stroke="#fff" stroke-width="1.5"/><path class="ck" d="m9 13.5 3 3 5-6" fill="none" stroke="#4DFFB4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <span class="bit">🌐 Websites</span><span class="bit">🎬 Videos</span><span class="bit">🛡️ Always on</span>
   </div>
 </div>
+</main>
+</div>
 
+<div class="marq" aria-hidden="true"><div class="track"><span>Websites</span><span>Videos</span><span>Chrome</span><span>Free</span><span>Always on</span></div></div>
+
+<div class="wrap">
 <section>
-  <h2>What it actually does</h2>
-  <p class="sub">NetShield checks every tab in the background. It doesn't just block a few known sites; it reacts to the words you gave it.</p>
-  <div class="rows">
-    <div class="row"><h3>Closes the page</h3><p>If a blocked word shows up in a page's address or title, or in the video you're watching, the tab closes within a second.</p></div>
-    <div class="row"><h3>Hides single videos</h3><p>On YouTube and similar sites, only the matching videos disappear from search results and recommendations. The rest of the page keeps working.</p></div>
-    <div class="row"><h3>Closes repeat offenders</h3><p>If a page keeps surfacing blocked content, 5 hits within 10 minutes, the whole tab closes.</p></div>
-    <div class="row"><h3>Understands Hebrew too</h3><p>Words and phrases work in any language, and it ignores things like hidden characters and nikud that people use to sneak past filters.</p></div>
+  <h2 class="rv">You choose the words. <span class="g">It does the rest.</span></h2>
+  <p class="sub rv">Add the words you want gone. NetShield watches every Chrome tab and steps in the moment one shows up.</p>
+  <div class="bento">
+    <article class="tile rv"><div class="vis radar" aria-hidden="true"><i></i><i></i><i></i><b></b></div><h3>Watches every tab</h3><p>If a blocked word appears in a page's address, title, or the video you're watching, the tab closes right away.</p></article>
+    <article class="tile rv" style="--d:.1s"><div class="vis play" aria-hidden="true"><svg viewBox="0 0 80 80"><path class="tri" d="M26 18v44l36-22Z" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"/><path class="sl" d="M12 68 68 12" stroke="#4DFFB4" stroke-width="4" stroke-linecap="round"/></svg></div><h3>Hides single videos</h3><p>On YouTube and similar sites, only the matching videos disappear from the feed. Everything else keeps working.</p></article>
+    <article class="tile rv" style="--d:.2s"><div class="vis" aria-hidden="true"><div class="tog"></div></div><h3>Always on</h3><p>Starts with Windows by itself. Open any other browser and it switches you to the filtered Chrome instead.</p></article>
+    <article class="tile rv" style="--d:.3s"><div class="vis" aria-hidden="true"><div class="timer"></div><span class="tnum">3:00</span></div><h3>Hard to turn off</h3><p>Words can only be added, never removed, and uninstalling takes a 3-minute wait. Protection that sticks.</p></article>
   </div>
 </section>
 
 <section>
-  <h2>Hard to switch off, on purpose.</h2>
-  <p class="sub">Most filters are one click from being disabled. This one adds friction exactly where willpower runs out.</p>
-  <div class="rows">
-    <div class="row"><h3>The word list only grows</h3><p>You can add words whenever you like. You can't remove them. Delete a line from the file and it comes right back.</p></div>
-    <div class="row"><h3>One browser only</h3><p>Open Edge, Firefox, Brave or regular Chrome and it closes immediately. "Chrome Filtered" opens in its place, with the link you clicked.</p></div>
-    <div class="row"><h3>Uninstalling takes 3 minutes</h3><p>Removal starts a 3-minute countdown, then asks you to confirm. Closing the window cancels it. If you still want it gone after that, it's gone.</p></div>
-  </div>
-  <p class="quote">A filter you can switch off at 11pm isn't much of a filter.</p>
-</section>
-
-<section id="how">
-  <h2>Set up in about a minute</h2>
+  <h2 class="rv">Ready in <span class="g">three steps.</span></h2>
   <ol class="steps">
-    <li><h3>Download</h3><p>Get the ZIP and extract all of it. Don't run it from inside the ZIP.</p></li>
-    <li><h3>Run install.bat</h3><p>If Windows says "protected your PC", click More info, then Run anyway. The app isn't digitally signed.</p></li>
-    <li><h3>Add your words</h3><p>Use the "TabFilter Add Word" shortcut on your desktop. New words work within seconds.</p></li>
-    <li><h3>Open Chrome Filtered</h3><p>Always use the new desktop shortcut. NetShield starts with Windows by itself.</p></li>
+    <li class="rv"><h3>Download</h3><p>Grab the ZIP and extract it.</p></li>
+    <li class="rv" style="--d:.12s"><h3>Run install.bat</h3><p>If Windows warns you, click More info, then Run anyway.</p></li>
+    <li class="rv" style="--d:.24s"><h3>Open Chrome Filtered</h3><p>Use the new desktop shortcut and add your words. Done.</p></li>
   </ol>
 </section>
 
-<section>
-  <h2>Questions</h2>
-  <div class="faq">
-    <details><summary>Does it work on Mac, phone or other browsers?</summary><p>Not yet. NetShield is for Windows and Google Chrome only, so Chrome needs to be installed.</p></details>
-    <details><summary>Does it send my browsing anywhere?</summary><p>No. It runs on your computer, doesn't need an account, and your word list is stored locally.</p></details>
-    <details><summary>Is it a virus? Windows warned me.</summary><p>No. The warning appears because the app isn't digitally signed yet, which is common for small free tools.</p></details>
-    <details><summary>Can I add a word later?</summary><p>Yes, any time. Just not remove one. Choose words you're sure about.</p></details>
-  </div>
+<section class="dl rv" id="download">
+  <h2>Get NetShield</h2>
+  <p>Free for Windows. Requires Google Chrome.</p>
+  <a class="btn" href="https://github.com/netshield42/NetShield/releases/latest">Download for Windows</a>
+  <small>Not digitally signed yet, so Windows may show a warning. It's safe to continue.</small>
 </section>
-
-<section class="dl" id="download">
-  <h2>Get NetShield for Windows</h2>
-  <p>Free. No account. Takes about a minute to set up.</p>
-  <a class="btn" href="https://github.com/netshield42/NetShield/releases/latest">Download from GitHub</a>
-</section>
-</main>
-
-<footer><span>&copy; <span id="y">2026</span> NetShield</span><a href="https://github.com/netshield42/NetShield">GitHub</a></footer>
 </div>
 
+<div class="wrap"><footer><span>&copy; <span id="y">2026</span> NetShield</span><a href="https://github.com/netshield42/NetShield">GitHub</a></footer></div>
+
 <script>
-var vids=[["Lofi beats to study to","Music"],["Casino night highlights","Entertainment"],["Pasta in 15 minutes","Cooking"],["Poker strategy for beginners","Games"],["Celebrity gossip this week","News"],["Cheap flights to Lisbon","Travel"],["Top 10 slot machine wins at the casino","Entertainment"]];
-var words=[],list=document.getElementById("list"),chips=document.getElementById("chips"),st=document.getElementById("st");
-list.innerHTML=vids.map(function(v){return '<div class="vid"><i></i><div><b>'+v[0]+'</b><small>'+v[1]+'</small></div></div>'}).join("");
-function add(w){
-  w=w.trim().toLowerCase();if(!w)return;
-  if(words.indexOf(w)>-1){st.textContent="Already on the list.";return}
-  words.push(w);
-  if(words.length===1)chips.innerHTML="";
-  var c=document.createElement("span");c.className="chip";c.textContent="🔒 "+w;chips.appendChild(c);
-  var hid=0;
-  [].forEach.call(list.children,function(el,i){
-    var t=vids[i][0].toLowerCase(),g=words.some(function(x){return t.indexOf(x)>-1});
-    el.classList.toggle("gone",g);if(g)hid++;
-  });
-  st.innerHTML=hid?'<strong>'+hid+' hidden.</strong> Everything else is untouched.':'Nothing matched yet. It would catch it the moment it appears.';
-}
-document.getElementById("f").addEventListener("submit",function(e){e.preventDefault();var i=document.getElementById("w");add(i.value);i.value=""});
-[].forEach.call(document.querySelectorAll(".try"),function(b){b.addEventListener("click",function(){add(b.textContent);b.remove()})});
+var t=document.querySelector(".track");t.innerHTML+=t.innerHTML+t.innerHTML;
+addEventListener("pointermove",function(e){document.body.style.setProperty("--gx",e.clientX+"px");document.body.style.setProperty("--gy",e.clientY+"px")});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;e.target.classList.add("in");if(e.target.matches(".steps li"))document.querySelector(".steps").classList.add("in");io.unobserve(e.target)})},{threshold:.2});
+document.querySelectorAll(".rv").forEach(function(el){io.observe(el)});
+document.querySelectorAll(".tile").forEach(function(c){
+  c.addEventListener("pointermove",function(e){var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+    c.style.setProperty("--mx",x*100+"%");c.style.setProperty("--my",y*100+"%");c.style.setProperty("--ry",(x-.5)*8+"deg");c.style.setProperty("--rx",(.5-y)*8+"deg")});
+  c.addEventListener("pointerleave",function(){c.style.setProperty("--rx","0deg");c.style.setProperty("--ry","0deg")});
+});
 document.getElementById("y").textContent=new Date().getFullYear();
 </script>
 </body>
