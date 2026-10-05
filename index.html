@@ -3,213 +3,87 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>NetShield – The web, minus the bad parts</title>
-<meta name="description" content="NetShield is a free Windows app that quietly filters inappropriate websites and videos in Chrome.">
+<title>NetShield – A shield for every screen</title>
+<meta name="description" content="NetShield is a free Windows app that filters inappropriate websites and videos in Chrome, so what's on your screen is safe to watch.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#070B14;--panel:rgba(255,255,255,.045);--line:rgba(255,255,255,.12);--ink:#EAF0FF;--mut:#8F9BB8;--mint:#4DFFB4;--blue:#4D7CFF;--pink:#FF4DB8;
---head:"Sora",system-ui,sans-serif;--body:"Outfit",system-ui,sans-serif;color-scheme:dark;box-sizing:border-box}
-*,*::before,*::after{box-sizing:inherit}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 1.1rem/1.6 var(--body);overflow-x:hidden;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
-h1,h2,h3{font-family:var(--head);margin:0;line-height:1.08;letter-spacing:-.03em}
-p{margin:0;color:var(--mut)}
-a{color:inherit}
-:focus-visible{outline:3px solid var(--mint);outline-offset:3px;border-radius:8px}
-.g{background:linear-gradient(90deg,var(--mint),var(--blue),var(--pink),var(--mint));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
-@keyframes shine{to{background-position:300% 0}}
-
-/* background */
-.aur{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
-.aur i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.35;animation:drift 18s ease-in-out infinite alternate}
-.aur i:nth-child(1){width:50vmax;height:50vmax;background:var(--blue);top:-20%;left:-15%}
-.aur i:nth-child(2){width:40vmax;height:40vmax;background:var(--pink);bottom:-15%;right:-10%;opacity:.22;animation-delay:-6s}
-.aur i:nth-child(3){width:30vmax;height:30vmax;background:var(--mint);top:35%;left:45%;opacity:.14;animation-delay:-11s}
-@keyframes drift{to{transform:translate(8vmax,5vmax) scale(1.25)}}
-.grid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;opacity:.35;mask-image:radial-gradient(70% 60% at 50% 30%,#000,transparent)}
-body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;background:radial-gradient(380px circle at var(--gx,50%) var(--gy,30%),rgba(77,255,180,.09),transparent 70%)}
-
-.wrap{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:0 1.5rem}
-nav{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0}
-.logo{display:flex;align-items:center;gap:.55rem;font:800 1.25rem var(--head);text-decoration:none}
-.btn{position:relative;display:inline-block;padding:.95rem 1.8rem;border-radius:999px;font-weight:600;text-decoration:none;color:#04110B;background:linear-gradient(90deg,var(--mint),#7AB0FF);box-shadow:0 0 30px rgba(77,255,180,.4);transition:transform .25s,box-shadow .25s;overflow:hidden}
-.btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.7),transparent);transform:skewX(-20deg);animation:sweep 3.5s 1.5s infinite}
-@keyframes sweep{to{left:140%}}
-.btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 0 50px rgba(77,255,180,.7)}
-.btn.sm{padding:.5rem 1.2rem;font-size:.95rem}
-
-/* hero */
-.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:2rem;align-items:center;min-height:calc(100vh - 80px);padding:2rem 0 4rem}
-.tag{display:inline-flex;align-items:center;gap:.6rem;padding:.4rem 1rem;border-radius:999px;background:var(--panel);border:1px solid var(--line);font-size:.92rem;margin-bottom:1.6rem}
-.tag b{width:8px;height:8px;border-radius:50%;background:var(--mint);animation:ping 1.8s infinite}
-@keyframes ping{0%{box-shadow:0 0 0 0 var(--mint)}100%{box-shadow:0 0 0 10px transparent}}
-h1{font-size:clamp(2.8rem,6.4vw,5.2rem);font-weight:800}
-h1 .w{display:inline-block;opacity:0;transform:translateY(60%) rotate(4deg);filter:blur(8px);animation:wd .9s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i)*.12s + .2s)}
-@keyframes wd{to{opacity:1;transform:none;filter:none}}
-.lead{max-width:30rem;margin:1.6rem 0 2.2rem;font-size:1.2rem;opacity:0;animation:fade 1s 1s forwards}
-.cta{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;opacity:0;animation:fade 1s 1.2s forwards}
-.cta span{font-size:.95rem;color:var(--mut)}
-@keyframes fade{to{opacity:1}}
-
-/* shield */
-.orb{position:relative;width:min(380px,80vw);aspect-ratio:1;margin:auto;animation:float 6s ease-in-out infinite}
-@keyframes float{50%{transform:translateY(-16px)}}
-.ring{position:absolute;inset:0;border-radius:50%;border:1px solid var(--line)}
-.ring.r2{inset:12%;border-color:rgba(77,255,180,.35);border-style:dashed;animation:spin 30s linear infinite}
-.ring.r3{inset:-8%;border-color:rgba(77,124,255,.3);animation:spin 40s linear infinite reverse}
-.ring::after{content:"";position:absolute;top:-5px;left:50%;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:var(--mint);box-shadow:0 0 18px 4px var(--mint)}
-.r3::after{background:var(--pink);box-shadow:0 0 18px 4px var(--pink)}
-@keyframes spin{to{transform:rotate(360deg)}}
-.scan{position:absolute;inset:12%;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 70%,rgba(77,255,180,.35));animation:spin 4s linear infinite;mask-image:radial-gradient(circle,transparent 30%,#000 31%)}
-.shield{position:absolute;inset:28%;display:grid;place-items:center;border-radius:36%;background:linear-gradient(145deg,rgba(77,124,255,.5),rgba(77,255,180,.25));border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(6px);box-shadow:0 0 80px rgba(77,124,255,.6);animation:glow 3s ease-in-out infinite alternate}
-.shield svg{width:55%;filter:drop-shadow(0 0 14px var(--mint))}
-.shield path.ck{stroke-dasharray:30;stroke-dashoffset:30;animation:draw 3s 1.2s ease-in-out infinite}
-@keyframes draw{0%{stroke-dashoffset:30}35%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:30}}
-@keyframes glow{to{box-shadow:0 0 120px rgba(77,255,180,.55)}}
-.bit{position:absolute;padding:.3rem .8rem;font-size:.85rem;font-weight:500;border-radius:999px;background:rgba(7,11,20,.7);border:1px solid var(--line);backdrop-filter:blur(6px);animation:bob 5s ease-in-out infinite}
-.bit:nth-of-type(1){top:6%;left:-6%}.bit:nth-of-type(2){bottom:12%;right:-8%;animation-delay:-2s}.bit:nth-of-type(3){bottom:-2%;left:8%;animation-delay:-3.5s}
-@keyframes bob{50%{transform:translateY(-12px)}}
-
-/* marquee */
-.marq{position:relative;z-index:2;overflow:hidden;padding:1.2rem 0;border-block:1px solid var(--line);background:rgba(255,255,255,.02)}
-.track{display:flex;width:max-content;animation:mq 28s linear infinite}
-.track span{font:800 clamp(1.4rem,3vw,2rem) var(--head);padding:0 1.8rem;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.45)}
-.track span::after{content:"✦";margin-left:3.6rem;color:var(--mint);-webkit-text-stroke:0}
-@keyframes mq{to{transform:translateX(-50%)}}
-
-/* sections */
-section{padding:6rem 0}
-h2{font-size:clamp(2rem,4.8vw,3.4rem);font-weight:800;max-width:18ch}
-.sub{margin-top:1rem;max-width:34rem}
-.rv{opacity:0;transform:translateY(46px) scale(.97);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1);transition-delay:var(--d,0s)}
-.rv.in{opacity:1;transform:none}
-
-/* bento */
-.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:1rem;margin-top:3rem}
-.tile{position:relative;overflow:hidden;grid-column:span 3;min-height:250px;padding:1.8rem;border-radius:26px;background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(8px);display:flex;flex-direction:column;justify-content:flex-end;
-transform:perspective(900px) rotateX(var(--rx,0)) rotateY(var(--ry,0));transition:transform .25s,border-color .3s,opacity .9s,translate .9s}
-.tile.rv{transition:opacity .9s cubic-bezier(.2,.8,.2,1) var(--d,0s),transform .25s,border-color .3s}
-.tile::before{content:"";position:absolute;inset:0;background:radial-gradient(300px circle at var(--mx,50%) var(--my,50%),rgba(77,255,180,.16),transparent 70%);opacity:0;transition:opacity .3s}
-.tile:hover{border-color:rgba(77,255,180,.5)}.tile:hover::before{opacity:1}
-.tile>*{position:relative}
-.tile h3{font-size:1.4rem;margin-bottom:.4rem}
-.vis{position:absolute!important;top:1.4rem;right:1.4rem;width:96px;height:96px;display:grid;place-items:center}
-/* radar */
-.radar i{position:absolute;inset:0;border-radius:50%;border:2px solid var(--mint);opacity:0;animation:rad 3s infinite}
-.radar i:nth-child(2){animation-delay:1s}.radar i:nth-child(3){animation-delay:2s}
-.radar b{width:14px;height:14px;border-radius:50%;background:var(--mint);box-shadow:0 0 20px var(--mint)}
-@keyframes rad{0%{transform:scale(.1);opacity:.9}100%{transform:scale(1);opacity:0}}
-/* play slash */
-.play svg{width:80px;overflow:visible}
-.play .sl{stroke-dasharray:90;stroke-dashoffset:90;animation:sl 3.2s ease-in-out infinite}
-@keyframes sl{0%,15%{stroke-dashoffset:90}45%,80%{stroke-dashoffset:0}100%{stroke-dashoffset:-90}}
-.play .tri{animation:tri 3.2s ease-in-out infinite;transform-origin:center}
-@keyframes tri{45%,80%{opacity:.3}}
-/* toggle */
-.tog{width:84px;height:44px;border-radius:99px;background:rgba(255,255,255,.12);animation:tbg 3.4s infinite;position:relative}
-.tog::after{content:"";position:absolute;top:5px;left:5px;width:34px;height:34px;border-radius:50%;background:#fff;animation:tk 3.4s infinite}
-@keyframes tk{0%,25%{transform:none}40%,90%{transform:translateX(40px)}100%{transform:none}}
-@keyframes tbg{0%,25%{background:rgba(255,255,255,.12)}40%,90%{background:var(--mint)}100%{background:rgba(255,255,255,.12)}}
-/* timer */
-.timer{width:92px;height:92px;border-radius:50%;background:conic-gradient(var(--pink) var(--p,0%),rgba(255,255,255,.1) 0);display:grid;place-items:center;mask-image:radial-gradient(circle,transparent 36px,#000 37px)}
-.tnum{position:absolute;font:800 1.1rem var(--head)}
-@property --p{syntax:"<percentage>";inherits:false;initial-value:0%}
-.timer{animation:tm 6s linear infinite}
-@keyframes tm{to{--p:100%}}
-
-/* steps */
-.steps{list-style:none;margin:3rem 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;position:relative;counter-reset:s}
-.steps::before{content:"";position:absolute;top:1.6rem;left:2rem;right:2rem;height:2px;background:linear-gradient(90deg,var(--mint),var(--blue),var(--pink));box-shadow:0 0 14px var(--mint);transform:scaleX(0);transform-origin:left;transition:transform 1.8s ease}
-.steps.in::before{transform:scaleX(1)}
-.steps li{counter-increment:s;padding-top:4.2rem;position:relative}
-.steps li::before{content:counter(s);position:absolute;top:0;left:0;width:3.2rem;height:3.2rem;border-radius:50%;display:grid;place-items:center;font:800 1.2rem var(--head);color:#04110B;background:linear-gradient(135deg,var(--mint),var(--blue));box-shadow:0 0 30px rgba(77,255,180,.6)}
-.steps h3{font-size:1.35rem;margin-bottom:.4rem}
-
-/* download */
-.dl{text-align:center;padding:5rem 1.5rem;border-radius:34px;position:relative;overflow:hidden;background:rgba(255,255,255,.04);border:1px solid var(--line)}
-.dl::before{content:"";position:absolute;width:160%;aspect-ratio:1;left:-30%;top:-80%;background:conic-gradient(transparent,rgba(77,255,180,.3),transparent 30%,rgba(255,77,184,.25),transparent 60%);animation:spin 9s linear infinite}
-.dl::after{content:"";position:absolute;inset:2px;border-radius:32px;background:var(--bg);opacity:.86}
-.dl>*{position:relative;z-index:1}.dl h2{margin:0 auto 1rem;max-width:none}.dl p{margin-bottom:2rem}
-.dl small{display:block;margin-top:1.4rem;color:var(--mut);font-size:.9rem}
-footer{display:flex;justify-content:space-between;padding:2.5rem 0;color:var(--mut);font-size:.92rem}
-
-@media(max-width:860px){.hero{grid-template-columns:1fr;text-align:center;padding-top:1rem}.lead{margin-inline:auto}.cta{justify-content:center}.orb{margin-top:2rem}.tile{grid-column:span 6}.steps{grid-template-columns:1fr}.steps::before{display:none}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-h1 .w,.lead,.cta,.rv{opacity:1;transform:none;filter:none}.steps::before{transform:none}}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="aur" aria-hidden="true"><i></i><i></i><i></i></div><div class="grid" aria-hidden="true"></div>
+<header class="nav" id="nav"><div class="wrap">
+  <a class="logo" href="#top"><svg width="20" height="22" viewBox="0 0 26 28" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2DD4DC"/><stop offset="1" stop-color="#0E7C99"/></linearGradient></defs><path d="M13 1 2 5v8c0 7 4.6 11.6 11 14 6.4-2.4 11-7 11-14V5L13 1Z" fill="url(#lg)" stroke="#C9A24A" stroke-width="1.4"/><path d="m8.5 13.5 3.2 3.2 5.8-6.4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>NetShield</a>
+  <nav class="links" aria-label="Main"><a href="#features">Features</a><a href="#how">Setup</a><a class="btn" href="#download">Download</a></nav>
+</div></header>
 
-<div class="wrap">
-<nav>
-  <a class="logo" href="#top"><svg width="22" height="24" viewBox="0 0 26 28" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4DFFB4"/><stop offset="1" stop-color="#4D7CFF"/></linearGradient></defs><path d="M13 1 2 5v8c0 7 4.6 11.6 11 14 6.4-2.4 11-7 11-14V5L13 1Z" fill="url(#lg)"/></svg>NetShield</a>
-  <a class="btn sm" href="#download">Download</a>
-</nav>
-
-<main id="top">
+<main id="top"><div class="wrap">
 <div class="hero">
   <div>
-    <span class="tag"><b></b>Free · Always on · For Windows</span>
-    <h1><span class="w" style="--i:0">The</span> <span class="w" style="--i:1">web,</span> <span class="w g" style="--i:2">minus</span> <span class="w g" style="--i:3">the</span> <span class="w g" style="--i:4">bad</span> <span class="w g" style="--i:5">parts.</span></h1>
-    <p class="lead">NetShield quietly filters inappropriate websites and videos in Chrome, so what's on your screen is safe to watch.</p>
-    <div class="cta"><a class="btn" href="#download">Download free</a><span>Takes about a minute to set up</span></div>
+    <span class="pill"><b></b>Free for Windows</span>
+    <h1><span class="ln"><span>A <em>shield</em></span></span><span class="ln"><span>for every</span></span><span class="ln"><span>screen.</span></span></h1>
+    <p class="lead">NetShield is a free app that filters inappropriate websites and videos, so what's on your screen is safe to watch.</p>
+    <div class="cta"><a class="btn" href="#download">Download free <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a><a class="tl" href="#features">See how it works</a></div>
+    <p class="fine">Works with Google Chrome. No account needed.</p>
   </div>
-  <div class="orb" id="orb" aria-hidden="true">
-    <div class="ring r3"></div><div class="ring"></div><div class="ring r2"></div><div class="scan"></div>
-    <div class="shield"><svg viewBox="0 0 26 28"><path d="M13 3 4 6.4v6.7c0 5.8 3.8 9.6 9 11.6 5.2-2 9-5.8 9-11.6V6.4L13 3Z" fill="none" stroke="#fff" stroke-width="1.5"/><path class="ck" d="m9 13.5 3 3 5-6" fill="none" stroke="#4DFFB4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <span class="bit">🌐 Websites</span><span class="bit">🎬 Videos</span><span class="bit">🛡️ Always on</span>
+
+  <div class="art" id="art" aria-hidden="true">
+    <svg viewBox="0 0 400 400">
+      <defs>
+        <linearGradient id="sf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#43E0E6"/><stop offset=".55" stop-color="#1798B5"/><stop offset="1" stop-color="#0B5F7E"/></linearGradient>
+        <linearGradient id="gd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F6E3A1"/><stop offset=".5" stop-color="#D4AF55"/><stop offset="1" stop-color="#A9822A"/></linearGradient>
+        <linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+        <clipPath id="cp"><path d="M200 100 128 128v70c0 48 30 78 72 96 42-18 72-48 72-96v-70L200 100Z"/></clipPath>
+      </defs>
+      <circle class="r r3" cx="200" cy="200" r="190"/><circle class="r r2" cx="200" cy="200" r="158"/>
+      <circle class="orbit" cx="200" cy="200" r="174"/>
+      <g class="dot"><circle cx="200" cy="26" r="6" fill="url(#gd)"/></g>
+      <g class="dot d2"><circle cx="200" cy="42" r="4" fill="#3CC38F"/></g>
+      <ellipse cx="200" cy="330" rx="80" ry="10" fill="#0E7C99" opacity=".15"/>
+      <path class="sh" pathLength="1" d="M200 100 128 128v70c0 48 30 78 72 96 42-18 72-48 72-96v-70L200 100Z"/>
+      <g clip-path="url(#cp)"><path class="gloss" d="M120 100h90l-60 220h-60Z" fill="url(#gl)"/></g>
+      <path class="inl" d="M200 118 144 140v58c0 38 24 62 56 78 32-16 56-40 56-78v-58L200 118Z" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.5"/>
+      <path class="ck" pathLength="1" d="m170 203 22 22 40-46"/>
+      <path class="sp s1" d="M330 120l4 12 12 4-12 4-4 12-4-12-12-4 12-4Z" fill="url(#gd)"/>
+      <path class="sp s2" d="M70 270l3 9 9 3-9 3-3 9-3-9-9-3 9-3Z" fill="url(#gd)"/>
+    </svg>
+    <div class="chip c1"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></i>Websites<u>✓</u></div>
+    <div class="chip c2"><i class="gold"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="4"/><path d="M10 9.5v5l4.5-2.5-4.5-2.5Z"/></svg></i>Videos<u>✓</u></div>
   </div>
-</div>
+</div></div>
+
+<section id="features" class="band"><div class="wrap">
+  <div class="split">
+    <div class="stick rv"><h2>Quiet, thorough, always there.</h2><p>You choose the words. NetShield handles the rest in the background.</p></div>
+    <div class="feat">
+      <div class="f t1"><div class="tile"><svg viewBox="0 0 48 48"><path pathLength="1" d="M4 24s7-12 20-12 20 12 20 12-7 12-20 12S4 24 4 24Z"/><circle pathLength="1" cx="24" cy="24" r="5"/></svg></div><div><h3>Watches every tab</h3><p>If a blocked word appears in a page, a title or the video you're watching, the tab closes right away.</p></div></div>
+      <div class="f t2"><div class="tile"><svg viewBox="0 0 48 48"><rect pathLength="1" x="5" y="10" width="38" height="28" rx="6"/><path pathLength="1" d="M20 18v12l10-6-10-6Z"/></svg></div><div><h3>Hides single videos</h3><p>On YouTube and similar sites, only the matching videos disappear. The rest of the page stays usable.</p></div></div>
+      <div class="f t3"><div class="tile"><svg viewBox="0 0 48 48"><path pathLength="1" d="M24 6v16"/><path pathLength="1" d="M14 12a15 15 0 1 0 20 0"/></svg></div><div><h3>Always on</h3><p>Starts with Windows, runs quietly in the background, and moves other browsers over to the filtered Chrome.</p></div></div>
+      <div class="f t4"><div class="tile"><svg viewBox="0 0 48 48"><rect pathLength="1" x="10" y="21" width="28" height="20" rx="5"/><path pathLength="1" d="M16 21v-6a8 8 0 0 1 16 0v6"/></svg></div><div><h3>Built to last</h3><p>Words can only be added, never removed, and uninstalling takes a 3-minute wait. Protection that sticks.</p></div></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="how"><div class="wrap">
+  <h2 class="rv center">Ready in a minute.</h2>
+  <div class="path rv" id="path">
+    <div class="line"><i></i><b></b></div>
+    <div class="node"><div class="ring"><svg viewBox="0 0 24 24"><path d="M12 4v12M7 11l5 5 5-5M5 20h14"/></svg></div><h3>Download</h3><p>Get the ZIP and extract it</p></div>
+    <div class="node"><div class="ring"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="m9 12 2 2 4-4"/></svg></div><h3>Install</h3><p>Run install.bat</p></div>
+    <div class="node"><div class="ring"><svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg></div><h3>Browse safely</h3><p>Open Chrome Filtered</p></div>
+  </div>
+</div></section>
+
+<section class="pad"><div class="wrap">
+  <div class="dl rv" id="download">
+    <svg class="wm" viewBox="0 0 26 28" aria-hidden="true"><path d="M13 1 2 5v8c0 7 4.6 11.6 11 14 6.4-2.4 11-7 11-14V5L13 1Z" fill="none" stroke="#E3BD6A" stroke-width=".5"/></svg>
+    <h2>Ready when you are.</h2>
+    <p>Free for Windows. Requires Google Chrome.</p>
+    <a class="btn gold" href="https://github.com/netshield42/NetShield/releases/latest">Download NetShield <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+    <small>Not digitally signed yet, so Windows may show a warning. It's safe to continue.</small>
+  </div>
+  <footer><span>&copy; <span id="y">2026</span> NetShield</span><a href="https://github.com/netshield42/NetShield">GitHub</a></footer>
+</div></section>
 </main>
-</div>
-
-<div class="marq" aria-hidden="true"><div class="track"><span>Websites</span><span>Videos</span><span>Chrome</span><span>Free</span><span>Always on</span></div></div>
-
-<div class="wrap">
-<section>
-  <h2 class="rv">You choose the words. <span class="g">It does the rest.</span></h2>
-  <p class="sub rv">Add the words you want gone. NetShield watches every Chrome tab and steps in the moment one shows up.</p>
-  <div class="bento">
-    <article class="tile rv"><div class="vis radar" aria-hidden="true"><i></i><i></i><i></i><b></b></div><h3>Watches every tab</h3><p>If a blocked word appears in a page's address, title, or the video you're watching, the tab closes right away.</p></article>
-    <article class="tile rv" style="--d:.1s"><div class="vis play" aria-hidden="true"><svg viewBox="0 0 80 80"><path class="tri" d="M26 18v44l36-22Z" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"/><path class="sl" d="M12 68 68 12" stroke="#4DFFB4" stroke-width="4" stroke-linecap="round"/></svg></div><h3>Hides single videos</h3><p>On YouTube and similar sites, only the matching videos disappear from the feed. Everything else keeps working.</p></article>
-    <article class="tile rv" style="--d:.2s"><div class="vis" aria-hidden="true"><div class="tog"></div></div><h3>Always on</h3><p>Starts with Windows by itself. Open any other browser and it switches you to the filtered Chrome instead.</p></article>
-    <article class="tile rv" style="--d:.3s"><div class="vis" aria-hidden="true"><div class="timer"></div><span class="tnum">3:00</span></div><h3>Hard to turn off</h3><p>Words can only be added, never removed, and uninstalling takes a 3-minute wait. Protection that sticks.</p></article>
-  </div>
-</section>
-
-<section>
-  <h2 class="rv">Ready in <span class="g">three steps.</span></h2>
-  <ol class="steps">
-    <li class="rv"><h3>Download</h3><p>Grab the ZIP and extract it.</p></li>
-    <li class="rv" style="--d:.12s"><h3>Run install.bat</h3><p>If Windows warns you, click More info, then Run anyway.</p></li>
-    <li class="rv" style="--d:.24s"><h3>Open Chrome Filtered</h3><p>Use the new desktop shortcut and add your words. Done.</p></li>
-  </ol>
-</section>
-
-<section class="dl rv" id="download">
-  <h2>Get NetShield</h2>
-  <p>Free for Windows. Requires Google Chrome.</p>
-  <a class="btn" href="https://github.com/netshield42/NetShield/releases/latest">Download for Windows</a>
-  <small>Not digitally signed yet, so Windows may show a warning. It's safe to continue.</small>
-</section>
-</div>
-
-<div class="wrap"><footer><span>&copy; <span id="y">2026</span> NetShield</span><a href="https://github.com/netshield42/NetShield">GitHub</a></footer></div>
-
-<script>
-var t=document.querySelector(".track");t.innerHTML+=t.innerHTML+t.innerHTML;
-addEventListener("pointermove",function(e){document.body.style.setProperty("--gx",e.clientX+"px");document.body.style.setProperty("--gy",e.clientY+"px")});
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;e.target.classList.add("in");if(e.target.matches(".steps li"))document.querySelector(".steps").classList.add("in");io.unobserve(e.target)})},{threshold:.2});
-document.querySelectorAll(".rv").forEach(function(el){io.observe(el)});
-document.querySelectorAll(".tile").forEach(function(c){
-  c.addEventListener("pointermove",function(e){var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
-    c.style.setProperty("--mx",x*100+"%");c.style.setProperty("--my",y*100+"%");c.style.setProperty("--ry",(x-.5)*8+"deg");c.style.setProperty("--rx",(.5-y)*8+"deg")});
-  c.addEventListener("pointerleave",function(){c.style.setProperty("--rx","0deg");c.style.setProperty("--ry","0deg")});
-});
-document.getElementById("y").textContent=new Date().getFullYear();
-</script>
+<script src="script.js"></script>
 </body>
 </html>
