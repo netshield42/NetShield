@@ -16,7 +16,7 @@ if(box){
     var ang=Math.random()*Math.PI*2,r=30+Math.random()*24;
     el.style.left=(50+r*Math.cos(ang))+"%";el.style.top=(50+r*Math.sin(ang))+"%";
   };
-  for(var i=0;i<10;i++){
+  for(var i=0;i<6;i++){
     var s=document.createElement("span"),z=16+Math.random()*14;
     s.className="st";s.innerHTML=star;
     s.style.width=s.style.height=z+"px";s.style.marginLeft=s.style.marginTop=-z/2+"px";
