@@ -7,103 +7,85 @@
 <meta name="description" content="NetShield is a free web-filtering app that blocks ads, trackers and harmful sites before they load.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Sora:wght@600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="grid-bg" aria-hidden="true"></div>
 
-<header class="nav">
-  <a class="logo" href="#top" aria-label="NetShield home">
-    <svg width="26" height="28" viewBox="0 0 26 28" aria-hidden="true"><path d="M13 1 2 5v8c0 7 4.6 11.6 11 14 6.4-2.4 11-7 11-14V5L13 1Z" fill="currentColor"/><path d="m8 14 4 4 7-8" fill="none" stroke="#EEF3F7" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<header class="nav" id="nav">
+  <a class="logo" href="#top">
+    <svg width="24" height="26" viewBox="0 0 26 28" aria-hidden="true"><path d="M13 1 2 5v8c0 7 4.6 11.6 11 14 6.4-2.4 11-7 11-14V5L13 1Z" fill="url(#g)"/></svg>
     NetShield
   </a>
   <nav aria-label="Main">
-    <a href="#how">How it works</a>
-    <a href="#features">Features</a>
-    <a href="#faq">FAQ</a>
-    <a class="btn btn-small" href="#download">Download</a>
+    <a href="#features">Features</a><a href="#how">How it works</a><a class="btn sm" href="#download">Download</a>
   </nav>
 </header>
 
-<main id="top">
-  <section class="hero">
-    <div class="hero-text">
-      <h1>The web, minus the junk.</h1>
-      <p class="lead">NetShield is a free web filter. It stops ads, trackers and harmful sites before they load, so pages open faster and safer.</p>
-      <div class="cta-row">
-        <a class="btn" href="#download">Download for free</a>
-        <a class="btn btn-ghost" href="#how">See how it works</a>
-      </div>
-      <p class="fine">Free forever. No account needed.</p>
+<main>
+<section class="hero" id="top">
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <div class="hero-in">
+    <span class="pill"><b></b>Free web filtering</span>
+    <h1><span>Block the bad.</span> <span class="grad">Keep the web.</span></h1>
+    <p class="lead">NetShield stops ads, trackers and harmful sites before they ever load. Faster pages, safer browsing, zero cost.</p>
+    <div class="cta"><a class="btn" href="#download">Download free</a><a class="btn ghost" href="#features">Explore features</a></div>
+
+    <div class="shield" id="shield">
+      <svg viewBox="0 0 200 200" aria-label="NetShield shield">
+        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5B8CFF"/><stop offset=".55" stop-color="#22E3C3"/><stop offset="1" stop-color="#9B5CFF"/></linearGradient></defs>
+        <circle class="ring r1" cx="100" cy="100" r="92"/><circle class="ring r2" cx="100" cy="100" r="78"/>
+        <path class="body" d="M100 34 56 50v36c0 33 19 54 44 66 25-12 44-33 44-66V50L100 34Z" fill="url(#g)"/>
+        <path class="tick" d="m80 98 14 14 28-30" fill="none" stroke="#060A18" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </div>
+    <p class="counter"><strong id="count">0</strong> threats blocked in this demo</p>
+  </div>
+</section>
 
-    <div class="demo" aria-label="Live demo of NetShield filtering web requests" role="img">
-      <div class="demo-bar">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-        <span class="demo-title">NetShield is on</span>
-      </div>
-      <ul class="feed" id="feed"></ul>
-      <div class="demo-foot">
-        <span>Blocked this session</span>
-        <strong id="count">0</strong>
-      </div>
+<div class="marq" aria-hidden="true"><div class="track"><span>Ads</span><span>Trackers</span><span>Phishing</span><span>Malware</span><span>Pop-ups</span><span>Scam sites</span><span>Crypto miners</span></div></div>
+
+<section id="features">
+  <h2 class="rv">Everything you need.<br><span class="grad">Nothing you don't.</span></h2>
+  <div class="cards">
+    <article class="card rv"><div class="ico">🛡️</div><h3>Stops harmful sites</h3><p>Phishing and malware pages are blocked before they can load, so one wrong click doesn't cost you.</p></article>
+    <article class="card rv"><div class="ico">🚫</div><h3>Ads and trackers, gone</h3><p>Cleaner pages that load faster, with less data collected about you.</p></article>
+    <article class="card rv"><div class="ico">📋</div><h3>Your rules</h3><p>Add any site to your block list, and allow the ones you trust.</p></article>
+    <article class="card rv"><div class="ico">💸</div><h3>Free, for real</h3><p>No subscription, no account, no limits on how much you can block.</p></article>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="rv"><strong><span data-to="100">0</span>%</strong><p>free</p></div>
+  <div class="rv"><strong><span data-to="0">0</span></strong><p>accounts needed</p></div>
+  <div class="rv"><strong><span data-to="1">0</span> min</strong><p>to set up</p></div>
+</section>
+
+<section id="how">
+  <h2 class="rv">Up and running in <span class="grad">three steps</span></h2>
+  <ol class="steps">
+    <li class="rv"><h3>Install</h3><p>Download NetShield and open it.</p></li>
+    <li class="rv"><h3>Pick your filters</h3><p>Choose ads, trackers, harmful sites, or your own list.</p></li>
+    <li class="rv"><h3>Browse freely</h3><p>NetShield works quietly in the background.</p></li>
+  </ol>
+</section>
+
+<section class="dl rv" id="download">
+  <div class="dl-box">
+    <h2>Get NetShield today</h2>
+    <p>Free to download. Choose your platform.</p>
+    <div class="cta">
+      <a class="btn" href="https://github.com/netshield42/NetShield/releases/latest">Windows</a>
+      <a class="btn" href="https://github.com/netshield42/NetShield/releases/latest">macOS</a>
+      <a class="btn" href="https://github.com/netshield42/NetShield/releases/latest">Android</a>
     </div>
-  </section>
-
-  <section class="how" id="how">
-    <h2>Set it up in three steps</h2>
-    <ol class="steps">
-      <li><h3>Install</h3><p>Download NetShield and open it. Setup takes about a minute.</p></li>
-      <li><h3>Choose what to block</h3><p>Turn on the filters you want: ads, trackers, harmful sites, or your own list.</p></li>
-      <li><h3>Browse as usual</h3><p>NetShield works in the background and blocks unwanted requests automatically.</p></li>
-    </ol>
-  </section>
-
-  <section class="features" id="features">
-    <h2>What NetShield does</h2>
-    <div class="grid">
-      <article class="f f-big">
-        <h3>Blocks harmful sites</h3>
-        <p>Known phishing and malware sites are stopped before they can load, so a wrong click doesn't cost you.</p>
-      </article>
-      <article class="f">
-        <h3>Removes ads and trackers</h3>
-        <p>Cleaner pages, less data collected about you.</p>
-      </article>
-      <article class="f">
-        <h3>Your own block list</h3>
-        <p>Add any site you want blocked, and allow the ones you trust.</p>
-      </article>
-      <article class="f f-wide">
-        <h3>Free, with nothing hidden</h3>
-        <p>No subscription, no account, no limits on how much you can block.</p>
-      </article>
-    </div>
-  </section>
-
-  <section class="download" id="download">
-    <h2>Get NetShield</h2>
-    <p>Free to download. Pick your platform.</p>
-    <div class="dl-row">
-      <a class="btn btn-light" href="https://github.com/netshield42/NetShield/releases/latest" data-platform="Windows">Download for Windows</a>
-      <a class="btn btn-light" href="https://github.com/netshield42/NetShield/releases/latest" data-platform="macOS">Download for macOS</a>
-      <a class="btn btn-light" href="https://github.com/netshield42/NetShield/releases/latest" data-platform="Android">Download for Android</a>
-    </div>
-  </section>
-
-  <section class="faq" id="faq">
-    <h2>Questions</h2>
-    <details><summary>Is NetShield really free?</summary><p>Yes. There is no paid tier and no account to create.</p></details>
-    <details><summary>Will it slow down my browsing?</summary><p>No. Blocking unwanted requests usually makes pages load faster.</p></details>
-    <details><summary>Can I allow a site that gets blocked?</summary><p>Yes. Add it to your allow list and NetShield will let it through.</p></details>
-  </section>
+  </div>
+</section>
 </main>
 
-<footer>
-  <span>&copy; <span id="year">2026</span> NetShield</span>
-  <a href="https://github.com/netshield42/NetShield">View on GitHub</a>
-</footer>
-
+<footer><span>&copy; <span id="year">2026</span> NetShield</span><a href="https://github.com/netshield42/NetShield">GitHub</a></footer>
 <script src="script.js"></script>
 </body>
 </html>
